@@ -391,21 +391,42 @@
       `<span>${L.shots}: 1</span><span>${L.fidelity}: ${fid}%</span><span>${L.source[current.source]}</span>`;
 
     clearInterval(typer);
-    const chars = Array.from(p[lang]);
-    const text = document.createTextNode("");
+    const typing = animate && !reducedMotion;
     const caret = document.createElement("span");
     caret.className = "caret";
     caret.textContent = " ";
-    els.phrase.replaceChildren(text, caret);
-    if (!animate || reducedMotion) {
-      text.data = p[lang];
-      return;
-    }
+    const parts = phraseParts(p[lang]).map(({ text, sup }) => {
+      const node = document.createTextNode(typing ? "" : text);
+      let el = node;
+      if (sup) {
+        el = document.createElement("sup");
+        el.append(node);
+      }
+      return { node, el, chars: graphemes(text) };
+    });
+    els.phrase.replaceChildren(...parts.map((x) => x.el), caret);
+    if (!typing) return;
+    let part = 0;
     let i = 0;
     typer = setInterval(() => {
-      text.data += chars[i];
-      if (++i >= chars.length) clearInterval(typer);
+      const cur = parts[part];
+      cur.node.data += cur.chars[i];
+      if (++i >= cur.chars.length) { part++; i = 0; }
+      if (part >= parts.length) clearInterval(typer);
     }, 28);
+  }
+
+  // "^" marks a superscript that runs to the next space: "∞^∞" renders as ∞<sup>∞</sup>.
+  function phraseParts(s) {
+    return s.split(/\^(\S+)/)
+      .map((text, i) => ({ text, sup: i % 2 === 1 }))
+      .filter((x) => x.text);
+  }
+
+  // Typed one grapheme at a time, so emoji like 🧙‍♀️ never show up half-built.
+  const segmenter = "Segmenter" in Intl ? new Intl.Segmenter() : null;
+  function graphemes(s) {
+    return segmenter ? Array.from(segmenter.segment(s), (g) => g.segment) : Array.from(s);
   }
 
   // ---------------------------------------------------------------- randomness
@@ -435,6 +456,11 @@
   // URL bias: ?bias=love:5,work-03:20,*:0 (or ?b=<base64url of the same>).
   // Keys: "*" (every phrase), a category, or a phrase id; the most specific wins.
   // A missing weight means 3, weight 0 excludes the phrase.
+  // A personal group key (the `p` field, e.g. ?bias=alfredo) unlocks that group's
+  // phrases, which are never drawn otherwise; see PERSONAL_SHARE.
+  // Unknown keys (e.g. a group with no phrases yet) are ignored, so NFC tags can be written early.
+  // A phrase is "boosted" when the bias favours it: an unlocked personal phrase, or one weighted
+  // above the default. See FORCE_AFTER.
   function parseBias() {
     const list = window.PHRASES;
     const params = new URLSearchParams(location.search);
@@ -442,12 +468,14 @@
     if (!raw && params.get("b")) {
       try { raw = atob(params.get("b").replace(/-/g, "+").replace(/_/g, "/")); } catch { raw = ""; }
     }
-    const cats = new Set(list.map((p) => p.c));
+    const cats = new Set(list.filter((p) => !p.p).map((p) => p.c));
+    const groups = new Set(list.filter((p) => p.p).map((p) => p.p));
     const ids = new Set(list.map((p) => p.id));
-    const rule = { all: null, cat: {}, id: {} };
+    const rule = { all: null, cat: {}, id: {}, groups: new Set() };
     raw.split(",").forEach((part) => {
       const [k, v] = part.split(":").map((x) => (x || "").trim());
       if (!k) return;
+      if (groups.has(k)) { rule.groups.add(k); return; }
       const w = v === "" ? 3 : Number(v);
       if (!Number.isFinite(w) || w < 0) return;
       const weight = Math.min(w, 1000);
@@ -456,38 +484,68 @@
       else if (cats.has(k)) rule.cat[k] = weight;
     });
     const pick = (...vals) => vals.find((x) => x != null);
-    const weights = list.map((p) => pick(rule.id[p.id], rule.cat[p.c], rule.all, 1));
-    if (weights.every((w) => w === 0)) return list.map(() => 1);
+    const weights = list.map((p) => p.p
+      ? (rule.groups.has(p.p) ? pick(rule.id[p.id], 1) : 0)
+      : pick(rule.id[p.id], rule.cat[p.c], rule.all, 1));
+    if (weights.every((w) => w === 0)) {
+      return { weights: list.map((p) => (p.p ? 0 : 1)), boosted: list.map(() => false) };
+    }
+    const base = pick(rule.all, 1);
+    const boosted = list.map((p, i) => (p.p ? weights[i] > 0 : weights[i] > base));
     if (raw) {
       console.info("[quantum-oracle] bias", raw);
-      console.table(list.map((p, i) => ({ id: p.id, weight: weights[i] })).filter((r) => r.weight !== 1));
+      console.table(list.map((p, i) => ({ id: p.id, weight: weights[i], boosted: boosted[i] }))
+        .filter((r) => r.weight !== 1 || r.boosted));
     }
-    return weights;
+    return { weights, boosted };
   }
-  const weights = parseBias();
+  const { weights, boosted } = parseBias();
 
-  // Weighted pick. For unboosted phrases the previous outcome is excluded and
-  // other recent ones are damped, so results feel varied. Phrases boosted by
-  // the URL bias (weight > 1) are exempt, otherwise the damping cancels the bias.
+  // Weighted pick. For most phrases the previous outcome is excluded and other
+  // recent ones are damped, so results feel varied. General phrases boosted by the
+  // URL bias are exempt, otherwise the damping cancels the bias. Personal phrases
+  // keep the damping: their group share already favours them.
   const RECENT_MAX = 12;
   const RECENT_DAMPING = 0.1;
+  // Chance of drawing from the unlocked personal phrases instead of the general ones.
+  const PERSONAL_SHARE = 0.4;
+  // Groups drawn more often than PERSONAL_SHARE. With several groups unlocked, the highest wins.
+  const GROUP_SHARE = { amore_mio: 0.85 };
+  // After this many draws in a row that the bias does not favour, the next one is a boosted phrase.
+  const FORCE_AFTER = 3;
   async function pickPhrase() {
     const list = window.PHRASES;
     let recent;
     try { recent = JSON.parse(store.get("qo.recent") || "[]"); } catch { recent = []; }
     if (!Array.isArray(recent)) recent = [];
 
-    const boosted = (i) => weights[i] > 1;
+    const undamped = (i) => boosted[i] && !list[i].p;
     const eligible = list.map((_, i) => i).filter((i) => weights[i] > 0);
     const lastId = recent[recent.length - 1];
-    let pool = eligible.filter((i) => boosted(i) || list[i].id !== lastId);
-    if (!pool.length) pool = eligible;
-    const w = (i) => weights[i] * (!boosted(i) && recent.includes(list[i].id) ? RECENT_DAMPING : 1);
+    const fresh = eligible.filter((i) => undamped(i) || list[i].id !== lastId);
+    const boostedIds = new Set(list.filter((_, i) => boosted[i]).map((p) => p.id));
+    const streak = recent.slice(-FORCE_AFTER);
+    const forced = streak.length === FORCE_AFTER && !streak.some((id) => boostedIds.has(id));
+    const forcedPool = forced ? fresh.filter((i) => boosted[i]) : [];
+    const candidates = forcedPool.length ? forcedPool : fresh;
+    const personal = candidates.filter((i) => list[i].p);
+    const general = candidates.filter((i) => !list[i].p);
+    const w = (i) => weights[i] * (!undamped(i) && recent.includes(list[i].id) ? RECENT_DAMPING : 1);
 
     const qv = await quantumRandom();
     const value = qv == null ? cryptoRandom() : qv;
+    // One uniform draw picks the pool, then is rescaled to pick within it.
+    let u = value / 4294967296;
+    let pool;
+    if (personal.length && general.length) {
+      const share = Math.max(...personal.map((i) => GROUP_SHARE[list[i].p] ?? PERSONAL_SHARE));
+      if (u < share) { pool = personal; u /= share; }
+      else { pool = general; u = (u - share) / (1 - share); }
+    } else {
+      pool = candidates.length ? candidates : eligible;
+    }
     const total = pool.reduce((sum, i) => sum + w(i), 0);
-    let x = (value / 4294967296) * total;
+    let x = u * total;
     let index = pool[pool.length - 1];
     for (const i of pool) {
       x -= w(i);

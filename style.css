@@ -80,15 +80,13 @@ body[data-state="result"] #result { display: flex; }
   gap: 18px;
 }
 .intro-glyph {
-  font-family: var(--mono);
-  font-size: clamp(56px, 18vw, 96px);
-  font-weight: 600;
-  background: linear-gradient(135deg, var(--cyan), var(--violet) 55%, var(--magenta));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
   filter: drop-shadow(0 0 24px rgba(103, 232, 249, 0.35));
   animation: breathe 3.2s ease-in-out infinite;
+}
+.intro-glyph svg {
+  display: block;
+  height: clamp(64px, 20vw, 108px);
+  width: auto;
 }
 @keyframes breathe {
   0%, 100% { transform: scale(1); opacity: 0.9; }
@@ -282,8 +280,13 @@ h1 span {
   font-weight: 500;
   line-height: 1.32;
   min-height: 3.96em;
+  white-space: pre-line;
   user-select: text;
   -webkit-user-select: text;
+}
+.phrase sup {
+  font-size: 0.6em;
+  line-height: 0;
 }
 .phrase .caret {
   display: inline-block;

@@ -35,6 +35,7 @@ Il parametro `bias` cambia il peso di categorie o singole predizioni:
 - Per varietà, una predizione con peso ≤ 1 non si ripete subito e quelle uscite di recente
   hanno peso ridotto. Le predizioni spinte dal bias (peso > 1) non vengono smorzate, quindi
   il peso indicato vale sempre: `?bias=friends-02:1000` la fa uscire quasi a ogni misura.
+  Le frasi personali invece restano smorzate, così non si ripetono.
 
 Categorie: `love`, `work`, `study`, `travel`, `luck`, `friends`, `tech`, `life`
 (id da `love-01` a `love-12`, `work-01`…`work-12`, ecc.; elenco completo in `phrases.js`).
@@ -47,6 +48,36 @@ Esempi:
 | `?bias=*:0,travel:1,luck:1` | solo viaggi e fortuna |
 | `?bias=friends-02:20` | spinge "brinderai alla salute del Dott. Casaburi" |
 | `?bias=*:0,love-04:1` | esce sempre e solo `love-04` |
+
+### Frasi personali
+
+In fondo a `phrases.js` ci sono frasi dedicate a singole persone, con un campo `p` (il gruppo,
+es. `alfredo`, `zii-casaburi`). Non escono mai, a meno che l'URL nomini il loro gruppo:
+
+```
+?bias=alfredo
+```
+
+Con il gruppo attivo, ogni misura ha il 40% di probabilità (`PERSONAL_SHARE` in `app.js`) di
+pescare una frase personale e il 60% una normale. Il gruppo si combina con gli altri pesi
+(`?bias=alfredo,love:5`). Per aggiungere una persona basta aggiungere frasi con un nuovo `p` e
+id `<gruppo>-01`, `<gruppo>-02`, ecc. Con una sola frase la quota reale scende a circa il 34%,
+perché la frase appena uscita non si ripete subito. Un gruppo può avere una quota diversa in
+`GROUP_SHARE` (`app.js`): `amore_mio` esce nell'85% delle misure.
+
+Un gruppo senza frasi (es. `?bias=giuseppe` prima di aver scritto le sue) viene ignorato, come
+ogni chiave sconosciuta: il tag NFC si può preparare prima.
+
+Con un bias attivo, dopo 3 misure di fila senza frasi favorite dal bias la quarta è per forza
+una di quelle (`FORCE_AFTER` in `app.js`). Sono favorite le frasi personali del gruppo attivo e
+quelle con peso maggiore del default (`love:5` sì, `love:0.5` no). Il conteggio usa le ultime
+misure salvate nel browser, anche di visite precedenti.
+
+Nel testo di una frase, `^` rende apice tutto ciò che segue fino al prossimo spazio
+(`∞^∞` diventa ∞<sup>∞</sup>), e `\n` va a capo.
+
+Le frasi personali non vengono estratte senza bias, ma restano leggibili nel codice sorgente
+del sito, che è pubblico.
 
 Per non rendere leggibile il bias nell'URL del tag NFC si può usare `?b=` con la stessa stringa
 in base64url:
