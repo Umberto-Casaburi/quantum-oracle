@@ -466,8 +466,9 @@
   }
   const weights = parseBias();
 
-  // Weighted pick. The previous outcome is excluded and other recent ones are
-  // damped, so results feel varied without cancelling out the URL bias.
+  // Weighted pick. For unboosted phrases the previous outcome is excluded and
+  // other recent ones are damped, so results feel varied. Phrases boosted by
+  // the URL bias (weight > 1) are exempt, otherwise the damping cancels the bias.
   const RECENT_MAX = 12;
   const RECENT_DAMPING = 0.1;
   async function pickPhrase() {
@@ -476,11 +477,12 @@
     try { recent = JSON.parse(store.get("qo.recent") || "[]"); } catch { recent = []; }
     if (!Array.isArray(recent)) recent = [];
 
+    const boosted = (i) => weights[i] > 1;
     const eligible = list.map((_, i) => i).filter((i) => weights[i] > 0);
     const lastId = recent[recent.length - 1];
-    let pool = eligible.filter((i) => list[i].id !== lastId);
+    let pool = eligible.filter((i) => boosted(i) || list[i].id !== lastId);
     if (!pool.length) pool = eligible;
-    const w = (i) => weights[i] * (recent.includes(list[i].id) ? RECENT_DAMPING : 1);
+    const w = (i) => weights[i] * (!boosted(i) && recent.includes(list[i].id) ? RECENT_DAMPING : 1);
 
     const qv = await quantumRandom();
     const value = qv == null ? cryptoRandom() : qv;

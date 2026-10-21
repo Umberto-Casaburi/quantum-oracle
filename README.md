@@ -32,8 +32,9 @@ Il parametro `bias` cambia il peso di categorie o singole predizioni:
   (`id` > categoria > `*`).
 - **peso**: numero ≥ 0, default 1. Peso 0 esclude, peso 10 rende dieci volte più probabile.
   Se ometti il numero (`?bias=love`) vale 3.
-- La predizione appena uscita non si ripete subito e quelle recenti hanno peso ridotto,
-  quindi anche una predizione con peso altissimo non esce a ogni misura (a meno che sia l'unica ammessa).
+- Per varietà, una predizione con peso ≤ 1 non si ripete subito e quelle uscite di recente
+  hanno peso ridotto. Le predizioni spinte dal bias (peso > 1) non vengono smorzate, quindi
+  il peso indicato vale sempre: `?bias=friends-02:1000` la fa uscire quasi a ogni misura.
 
 Categorie: `love`, `work`, `study`, `travel`, `luck`, `friends`, `tech`, `life`
 (id da `love-01` a `love-12`, `work-01`…`work-12`, ecc.; elenco completo in `phrases.js`).
