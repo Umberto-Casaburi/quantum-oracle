@@ -513,6 +513,54 @@
   const GROUP_SHARE = { amore_mio: 0.85 };
   // After this many draws in a row that the bias does not favour, the next one is a boosted phrase.
   const FORCE_AFTER = 3;
+  // Entangled groups: the n-th personal phrase drawn for one group is the n-th drawn for the
+  // other, on any device. Both groups list the same phrases in the same order; the order is a
+  // seeded shuffle per cycle, the same everywhere, and each browser counts its own draws.
+  const ENTANGLED = [["martina", "salvatore"]];
+
+  function seededRandom(seed) {
+    let a = seed >>> 0;
+    return () => {
+      a = (a + 0x6d2b79f5) >>> 0;
+      let t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function hashString(s) {
+    let h = 2166136261;
+    for (const ch of s) h = Math.imul(h ^ ch.codePointAt(0), 16777619);
+    return h >>> 0;
+  }
+  // Position of the n-th draw in a list of `size` phrases. Cycles never start with the
+  // phrase that ended the previous one.
+  function entangledSlot(key, n, size) {
+    const perm = (cycle) => {
+      const rnd = seededRandom(hashString(key) + cycle);
+      const a = [...Array(size).keys()];
+      for (let i = size - 1; i > 0; i--) {
+        const j = Math.floor(rnd() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+    const cycle = Math.floor(n / size);
+    const a = perm(cycle);
+    if (cycle > 0 && size > 1 && a[0] === perm(cycle - 1)[size - 1]) [a[0], a[1]] = [a[1], a[0]];
+    return a[n % size];
+  }
+  function entangledPick(index) {
+    const list = window.PHRASES;
+    const group = list[index].p;
+    const pair = group && ENTANGLED.find((g) => g.includes(group));
+    if (!pair) return index;
+    const members = list.map((_, i) => i).filter((i) => list[i].p === group);
+    const key = "qo.ent." + group;
+    const n = Number(store.get(key)) || 0;
+    store.set(key, String(n + 1));
+    return members[entangledSlot(pair.join("+"), n, members.length)];
+  }
   async function pickPhrase() {
     const list = window.PHRASES;
     let recent;
@@ -551,6 +599,7 @@
       x -= w(i);
       if (x < 0) { index = i; break; }
     }
+    index = entangledPick(index);
 
     recent.push(list[index].id);
     store.set("qo.recent", JSON.stringify(recent.slice(-RECENT_MAX)));

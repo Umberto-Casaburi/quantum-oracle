@@ -184,5 +184,25 @@ window.PHRASES = [
   { id: "carmine-06", p: "carmine", c: "luck", it: "La prossima cena la paga il signor Adivo, lo dice l'oracolo.", en: "Mr. Adivo is paying for the next dinner, says the oracle." },
 
   // Zii Casaburi
-  { id: "zii-casaburi-01", p: "zii-casaburi", c: "study", it: "Молодец, Эмануэла! Только ты могла это перевести.", en: "Молодец, Эмануэла! Только ты могла это перевести." }
+  { id: "zii-casaburi-01", p: "zii-casaburi", c: "study", it: "Молодец, Эмануэла! Только ты могла это перевести.", en: "Молодец, Эмануэла! Только ты могла это перевести." },
+
+  // Martina and Salvatore share the same phrases, entangled: see ENTANGLED in app.js.
+  // Keep both lists identical and in the same order.
+  // Martina
+  { id: "martina-01", p: "martina", c: "work", it: "80 euro per un workshop.", en: "80 euros for a workshop." },
+  { id: "martina-02", p: "martina", c: "friends", it: "Blublublublublublublu", en: "Blublublublublublublu" },
+  { id: "martina-03", p: "martina", c: "tech", it: "Tutorial storie in evidenza.", en: "Highlighted stories tutorial." },
+  { id: "martina-04", p: "martina", c: "life", it: "Mocc' a ma', mocc' a maaaaa", en: "Mocc' a ma', mocc' a maaaaa" },
+  { id: "martina-05", p: "martina", c: "love", it: "13/11/2024 ❤️", en: "13/11/2024 ❤️" },
+  { id: "martina-06", p: "martina", c: "life", it: "6 di mattina.", en: "6 in the morning." },
+  { id: "martina-07", p: "martina", c: "life", it: "Qualcuno dovrà pur buttarla la spazzatura.", en: "Someone has to take the trash out." },
+
+  // Salvatore
+  { id: "salvatore-01", p: "salvatore", c: "work", it: "80 euro per un workshop.", en: "80 euros for a workshop." },
+  { id: "salvatore-02", p: "salvatore", c: "friends", it: "Blublublublublublublu", en: "Blublublublublublublu" },
+  { id: "salvatore-03", p: "salvatore", c: "tech", it: "Tutorial storie in evidenza.", en: "Highlighted stories tutorial." },
+  { id: "salvatore-04", p: "salvatore", c: "life", it: "Mocc' a ma', mocc' a maaaaa", en: "Mocc' a ma', mocc' a maaaaa" },
+  { id: "salvatore-05", p: "salvatore", c: "love", it: "13/11/2024 ❤️", en: "13/11/2024 ❤️" },
+  { id: "salvatore-06", p: "salvatore", c: "life", it: "6 di mattina.", en: "6 in the morning." },
+  { id: "salvatore-07", p: "salvatore", c: "life", it: "Qualcuno dovrà pur buttarla la spazzatura.", en: "Someone has to take the trash out." }
 ];

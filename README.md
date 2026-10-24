@@ -65,6 +65,14 @@ id `<gruppo>-01`, `<gruppo>-02`, ecc. Con una sola frase la quota reale scende a
 perché la frase appena uscita non si ripete subito. Un gruppo può avere una quota diversa in
 `GROUP_SHARE` (`app.js`): `amore_mio` esce nell'85% delle misure.
 
+`martina` e `salvatore` sono **entangled** (`ENTANGLED` in `app.js`): hanno le stesse frasi e la
+n-esima frase personale che esce a Martina è la n-esima che esce a Salvatore. Se Martina misura
+e le esce "6 di mattina", la prossima frase personale di Salvatore sarà "6 di mattina", e così
+via. L'ordine è un mescolamento fisso, uguale su tutti i telefoni, e ogni browser conta le
+proprie estrazioni: funziona anche su telefoni diversi senza server, purché i due misurino a
+turno e partano insieme. Se uno dei due fa più misure di fila, si porta avanti nella sequenza
+e l'altro le ritrova nello stesso ordine. Le due liste in `phrases.js` vanno tenute identiche.
+
 Un gruppo senza frasi (es. `?bias=giuseppe` prima di aver scritto le sue) viene ignorato, come
 ogni chiave sconosciuta: il tag NFC si può preparare prima.
 
