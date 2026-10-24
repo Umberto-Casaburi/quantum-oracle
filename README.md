@@ -65,13 +65,26 @@ id `<gruppo>-01`, `<gruppo>-02`, ecc. Con una sola frase la quota reale scende a
 perché la frase appena uscita non si ripete subito. Un gruppo può avere una quota diversa in
 `GROUP_SHARE` (`app.js`): `amore_mio` esce nell'85% delle misure.
 
-`martina` e `salvatore` sono **entangled** (`ENTANGLED` in `app.js`): hanno le stesse frasi e la
-n-esima frase personale che esce a Martina è la n-esima che esce a Salvatore. Se Martina misura
-e le esce "6 di mattina", la prossima frase personale di Salvatore sarà "6 di mattina", e così
-via. L'ordine è un mescolamento fisso, uguale su tutti i telefoni, e ogni browser conta le
-proprie estrazioni: funziona anche su telefoni diversi senza server, purché i due misurino a
-turno e partano insieme. Se uno dei due fa più misure di fila, si porta avanti nella sequenza
-e l'altro le ritrova nello stesso ordine. Le due liste in `phrases.js` vanno tenute identiche.
+`martina` e `salvatore` sono **entangled** (`ENTANGLED` in `app.js`): hanno le stesse frasi e
+la frase personale uscita a uno dei due è la prossima che esce all'altro. Le due liste in
+`phrases.js` vanno tenute identiche e nello stesso ordine.
+
+Per sincronizzare due telefoni diversi serve il Worker Cloudflare in `worker/`: ricorda le frasi
+uscite e le consegna all'altro (le frasi in attesa scadono dopo 3 ore, così le prove prima della
+festa non lasciano tracce). Senza Worker, o se non risponde, il sito usa una sequenza fissa
+uguale su tutti i telefoni: la n-esima frase di Martina è la n-esima di Salvatore, quindi
+funziona solo se partono insieme e misurano a turno.
+
+Pubblicare il Worker (serve un account Cloudflare gratuito):
+
+```sh
+cd worker
+npm install
+npx wrangler login    # apre il browser per autorizzare
+npx wrangler deploy   # stampa l'indirizzo, es. https://quantum-oracle-entangle.<nome>.workers.dev
+```
+
+Poi l'indirizzo va in `entangleEndpoint` in cima ad `app.js`.
 
 Un gruppo senza frasi (es. `?bias=giuseppe` prima di aver scritto le sue) viene ignorato, come
 ogni chiave sconosciuta: il tag NFC si può preparare prima.

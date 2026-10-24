@@ -1,0 +1,11 @@
+name = "quantum-oracle-entangle"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[[durable_objects.bindings]]
+name = "PAIRS"
+class_name = "Pair"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Pair"]

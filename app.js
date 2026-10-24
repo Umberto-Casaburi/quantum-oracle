@@ -5,6 +5,10 @@
     // Optional quantum RNG proxy (see README). Must answer GET with JSON { "value": <uint32> }.
     qrngEndpoint: "",
     qrngTimeoutMs: 1500,
+    // Optional Worker that syncs entangled groups across phones (see worker/). Without it,
+    // or when it does not answer, a fixed shared sequence is used instead.
+    entangleEndpoint: "",
+    entangleTimeoutMs: 2500,
     chargeRate: 0.6,        // superposition gained per second at full shake
     decoherenceRate: 0.22,  // superposition lost per second when still
     stopDelayMs: 650,       // stillness required before measuring
@@ -513,9 +517,11 @@
   const GROUP_SHARE = { amore_mio: 0.85 };
   // After this many draws in a row that the bias does not favour, the next one is a boosted phrase.
   const FORCE_AFTER = 3;
-  // Entangled groups: the n-th personal phrase drawn for one group is the n-th drawn for the
-  // other, on any device. Both groups list the same phrases in the same order; the order is a
-  // seeded shuffle per cycle, the same everywhere, and each browser counts its own draws.
+  // Entangled groups: a personal phrase drawn for one group is the next one drawn for the
+  // other. Both groups list the same phrases in the same order. With CONFIG.entangleEndpoint
+  // the Worker queues each phrase for the partner. Otherwise the n-th draw of one group is the
+  // n-th of the other: the order is a seeded shuffle per cycle, the same everywhere, and each
+  // browser counts its own draws.
   const ENTANGLED = [["martina", "salvatore"]];
 
   function seededRandom(seed) {
@@ -550,12 +556,35 @@
     if (cycle > 0 && size > 1 && a[0] === perm(cycle - 1)[size - 1]) [a[0], a[1]] = [a[1], a[0]];
     return a[n % size];
   }
-  function entangledPick(index) {
+  async function entangledRemote(pair, group, slot) {
+    if (!CONFIG.entangleEndpoint) return null;
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), CONFIG.entangleTimeoutMs);
+    try {
+      const r = await fetch(CONFIG.entangleEndpoint.replace(/\/$/, "") + "/draw", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pair: pair.join("+"), group, slot }),
+        signal: ctrl.signal,
+        cache: "no-store"
+      });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return Number.isInteger(j.slot) ? j.slot : null;
+    } catch {
+      return null;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  async function entangledPick(index) {
     const list = window.PHRASES;
     const group = list[index].p;
     const pair = group && ENTANGLED.find((g) => g.includes(group));
     if (!pair) return index;
     const members = list.map((_, i) => i).filter((i) => list[i].p === group);
+    const remote = await entangledRemote(pair, group, members.indexOf(index));
+    if (remote != null && remote < members.length) return members[remote];
     const key = "qo.ent." + group;
     const n = Number(store.get(key)) || 0;
     store.set(key, String(n + 1));
@@ -599,7 +628,7 @@
       x -= w(i);
       if (x < 0) { index = i; break; }
     }
-    index = entangledPick(index);
+    index = await entangledPick(index);
 
     recent.push(list[index].id);
     store.set("qo.recent", JSON.stringify(recent.slice(-RECENT_MAX)));
