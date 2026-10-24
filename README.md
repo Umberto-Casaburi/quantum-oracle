@@ -84,7 +84,8 @@ npx wrangler login    # apre il browser per autorizzare
 npx wrangler deploy   # stampa l'indirizzo, es. https://quantum-oracle-entangle.<nome>.workers.dev
 ```
 
-Poi l'indirizzo va in `entangleEndpoint` in cima ad `app.js`.
+Poi l'indirizzo va in `entangleEndpoint` in cima ad `app.js` (ora:
+`https://quantum-oracle-entangle.umberto-casaburi.workers.dev`).
 
 Un gruppo senza frasi (es. `?bias=giuseppe` prima di aver scritto le sue) viene ignorato, come
 ogni chiave sconosciuta: il tag NFC si può preparare prima.

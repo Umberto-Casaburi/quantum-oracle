@@ -7,7 +7,7 @@
     qrngTimeoutMs: 1500,
     // Optional Worker that syncs entangled groups across phones (see worker/). Without it,
     // or when it does not answer, a fixed shared sequence is used instead.
-    entangleEndpoint: "",
+    entangleEndpoint: "https://quantum-oracle-entangle.umberto-casaburi.workers.dev",
     entangleTimeoutMs: 2500,
     chargeRate: 0.6,        // superposition gained per second at full shake
     decoherenceRate: 0.22,  // superposition lost per second when still
