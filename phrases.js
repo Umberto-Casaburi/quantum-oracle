@@ -185,7 +185,7 @@ window.PHRASES = [
 
   // Zii Casaburi
   { id: "zii-casaburi-01", p: "zii-casaburi", c: "study", it: "Молодец, Эмануэла! Только ты могла это перевести.", en: "Молодец, Эмануэла! Только ты могла это перевести." },
-  { id: "zii-casaburi-02", p: "zii-casaburi", c: "work", it: "Per la cuoca di casa, prima o poi diventerai stellata.", en: "To the family cook: sooner or later you'll earn your Michelin star." },
+  { id: "zii-casaburi-02", p: "zii-casaburi", c: "work", it: "Alla cuoca di casa: prima o poi diventerai stellata.", en: "To the family cook: sooner or later you'll earn your Michelin star." },
   { id: "zii-casaburi-03", p: "zii-casaburi", c: "work", it: "A breve il musicista riceverà la chiamata tanto desiderata, un grandioso contratto. Quello di un prestito.", en: "Soon the musician will get the long-awaited call, a grand contract. A loan contract." },
   { id: "zii-casaburi-04", p: "zii-casaburi", c: "friends", it: "Anna, l'oracolo è sicuro che tu stia simpatica a tutti, tranne quelli a cui fai un clistere.", en: "Anna, the oracle is sure everyone likes you, except the people you give an enema to." },
   { id: "zii-casaburi-05", p: "zii-casaburi", c: "life", it: "Da un grande cognome derivano grandi responsabilità. Modestamente 😎", en: "With a great surname comes great responsibility. Modestly 😎" },
