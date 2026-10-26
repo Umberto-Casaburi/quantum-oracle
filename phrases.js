@@ -183,6 +183,22 @@ window.PHRASES = [
   { id: "carmine-05", p: "carmine", c: "work", it: "\"Non me l'aspettavo da Babbo Natale 😭\" è più o meno quello che pensiamo tutti quando ci stampi le stronzate.", en: "\"Didn't expect this from Santa 😭\" is more or less what we all think when you print us your nonsense." },
   { id: "carmine-06", p: "carmine", c: "luck", it: "La prossima cena la paga il signor Adivo, lo dice l'oracolo.", en: "Mr. Adivo is paying for the next dinner, says the oracle." },
 
+  // Daniele
+  { id: "daniele-01", p: "daniele", c: "work", it: "L'obiettivo è conquistare il mondo. Uno square alla volta.", en: "The goal is to conquer the world. One square at a time." },
+  { id: "daniele-02", p: "daniele", c: "study", it: "Magari non oggi e neanche domani, ma l'oracolo per te prevede che un giorno diventerai rettore dell'Università della Calabria.", en: "Maybe not today, and not tomorrow either, but the oracle foresees that one day you'll become rector of the University of Calabria." },
+  { id: "daniele-03", p: "daniele", c: "work", it: "Il futuro ha un solo colore, verde Sense Square.", en: "The future has only one colour: Sense Square green." },
+  { id: "daniele-04", p: "daniele", c: "work", it: "È scritto nelle stelle, il Science Park diventerà il nuovo punto di riferimento della scienza.", en: "It's written in the stars: the Science Park will become the new landmark of science." },
+  { id: "daniele-05", p: "daniele", c: "friends", it: "Non lasciare che Simone Rizzo prenda possesso del tuo cervello, fai attenzione!", en: "Don't let Simone Rizzo take over your brain, be careful!" },
+
+  // Rammszy
+  { id: "rammszy-01", p: "rammszy", c: "work", it: "Siete i colleghi migliori che mi potessero capitare.", en: "You're the best coworkers I could have ended up with." },
+  { id: "rammszy-02", p: "rammszy", c: "friends", it: "Ambliblublu", en: "Ambliblublu" },
+  { id: "rammszy-03", p: "rammszy", c: "study", it: "L'oracolo dice che non potrai avere frasi in inglese, devi imparare l'italiano.", en: "L'oracolo dice che non potrai avere frasi in inglese, devi imparare l'italiano." },
+  { id: "rammszy-04", p: "rammszy", c: "friends", it: "Anche se sei diverso ti accettiamo, non possiamo lasciare fuori i gay.", en: "Even if you're different we accept you, we can't leave the gays out." },
+  { id: "rammszy-05", p: "rammszy", c: "work", it: "Presto i tuoi colleghi diventeranno zii grazie a te, auguri!", en: "Soon your coworkers will become uncles thanks to you, congratulations!" },
+  { id: "rammszy-06", p: "rammszy", c: "friends", it: "පොන්නයා", en: "පොන්නයා" },
+  { id: "rammszy-07", p: "rammszy", c: "life", it: "Accanto a te hai tante persone che ti vogliono bene, parola dell'oracolo.", en: "You have so many people by your side who care about you, word of the oracle." },
+
   // Zii Casaburi
   { id: "zii-casaburi-01", p: "zii-casaburi", c: "study", it: "Молодец, Эмануэла! Только ты могла это перевести.", en: "Молодец, Эмануэла! Только ты могла это перевести." },
   { id: "zii-casaburi-02", p: "zii-casaburi", c: "work", it: "Alla cuoca di casa: prima o poi diventerai stellata.", en: "To the family cook: sooner or later you'll earn your Michelin star." },
