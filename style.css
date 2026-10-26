@@ -275,6 +275,9 @@ h1 span {
   letter-spacing: 0;
   font-size: 13px;
 }
+.card-cat.personal {
+  color: var(--cyan);
+}
 .phrase {
   font-size: clamp(21px, 6vw, 26px);
   font-weight: 500;

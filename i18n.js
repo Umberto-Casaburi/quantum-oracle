@@ -52,7 +52,8 @@ window.I18N = {
     source: { crypto: "rng: classico", qrng: "rng: quantistico ⚛" },
     cats: {
       love: "|amore⟩", work: "|lavoro⟩", study: "|studio⟩", travel: "|viaggi⟩",
-      luck: "|fortuna⟩", friends: "|amicizia⟩", tech: "|tech⟩", life: "|vita⟩"
+      luck: "|fortuna⟩", friends: "|amicizia⟩", tech: "|tech⟩", life: "|vita⟩",
+      personal: "|personale⟩"
     },
     infoTitle: "Cos'è il Quantum Oracle?",
     infoHtml: `
@@ -134,7 +135,8 @@ window.I18N = {
     source: { crypto: "rng: classical", qrng: "rng: quantum ⚛" },
     cats: {
       love: "|love⟩", work: "|work⟩", study: "|study⟩", travel: "|travel⟩",
-      luck: "|luck⟩", friends: "|friends⟩", tech: "|tech⟩", life: "|life⟩"
+      luck: "|luck⟩", friends: "|friends⟩", tech: "|tech⟩", life: "|life⟩",
+      personal: "|personal⟩"
     },
     infoTitle: "What is the Quantum Oracle?",
     infoHtml: `

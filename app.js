@@ -388,7 +388,9 @@
   function renderResult(animate) {
     const p = window.PHRASES[current.index];
     const L = window.I18N[lang];
-    els.cat.textContent = L.cats[p.c];
+    // Personal phrases show their own category so they stand out from the general ones.
+    els.cat.textContent = p.p ? L.cats.personal : L.cats[p.c];
+    els.cat.classList.toggle("personal", !!p.p);
     const fid = current.fidelity.toLocaleString(lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
     els.meta.innerHTML =
       `<span class="q">|${current.bit}⟩</span><span>q[${current.qubit}]</span>` +
