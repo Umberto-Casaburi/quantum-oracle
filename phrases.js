@@ -214,7 +214,7 @@ window.PHRASES = [
   { id: "martina-02", p: "martina", c: "friends", it: "Blublublublublublublu", en: "Blublublublublublublu" },
   { id: "martina-03", p: "martina", c: "tech", it: "Tutorial storie in evidenza.", en: "Highlighted stories tutorial." },
   { id: "martina-04", p: "martina", c: "life", it: "Mocc' a ma', mocc' a maaaaa", en: "Mocc' a ma', mocc' a maaaaa" },
-  { id: "martina-05", p: "martina", c: "love", it: "13/11/2024 ❤️", en: "13/11/2024 ❤️" },
+  { id: "martina-05", p: "martina", c: "love", it: "07/11/2024 ❤️", en: "07/11/2024 ❤️" },
   { id: "martina-06", p: "martina", c: "life", it: "6 di mattina.", en: "6 in the morning." },
   { id: "martina-07", p: "martina", c: "life", it: "Qualcuno dovrà pur buttarla la spazzatura.", en: "Someone has to take the trash out." },
 
@@ -223,7 +223,7 @@ window.PHRASES = [
   { id: "salvatore-02", p: "salvatore", c: "friends", it: "Blublublublublublublu", en: "Blublublublublublublu" },
   { id: "salvatore-03", p: "salvatore", c: "tech", it: "Tutorial storie in evidenza.", en: "Highlighted stories tutorial." },
   { id: "salvatore-04", p: "salvatore", c: "life", it: "Mocc' a ma', mocc' a maaaaa", en: "Mocc' a ma', mocc' a maaaaa" },
-  { id: "salvatore-05", p: "salvatore", c: "love", it: "13/11/2024 ❤️", en: "13/11/2024 ❤️" },
+  { id: "salvatore-05", p: "salvatore", c: "love", it: "07/11/2024 ❤️", en: "07/11/2024 ❤️" },
   { id: "salvatore-06", p: "salvatore", c: "life", it: "6 di mattina.", en: "6 in the morning." },
   { id: "salvatore-07", p: "salvatore", c: "life", it: "Qualcuno dovrà pur buttarla la spazzatura.", en: "Someone has to take the trash out." }
 ];
