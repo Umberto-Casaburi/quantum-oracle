@@ -207,6 +207,22 @@ window.PHRASES = [
   { id: "zii-casaburi-05", p: "zii-casaburi", c: "life", it: "Da un grande cognome derivano grandi responsabilità. Modestamente 😎", en: "With a great surname comes great responsibility. Modestly 😎" },
   { id: "zii-casaburi-06", p: "zii-casaburi", c: "life", it: "Un papà così non si trova facilmente, ne sappiamo qualcosa. Condoglianze", en: "A dad like that is hard to find, we know something about it. Our condolences" },
 
+  // Fabio
+  { id: "fabio-01", p: "fabio", c: "study", it: "Non vorrei dire, ma ci siamo laureati entrambi prima di GTA 6.", en: "Not to point it out, but we both graduated before GTA 6 came out." },
+  { id: "fabio-02", p: "fabio", c: "love", it: "Povera Anna, ormai si è rassegnata e anche lei sa che starà sempre al secondo posto, al primo c'è sempre e solo la moto.", en: "Poor Anna, she's given up by now and she knows she'll always come second: first place always and only belongs to the motorbike." },
+  { id: "fabio-03", p: "fabio", c: "life", it: "Le risposte di questo oracolo sono sempre immediate, guai a fare tardi se si tratta di te.", en: "This oracle's answers are always instant: heaven forbid it runs late when it comes to you." },
+  { id: "fabio-04", p: "fabio", c: "friends", it: "Sì, ma se l'orario socialmente accettabile per andare via è arrivato, non c'è nulla che ti trattiene.", en: "Sure, but once the socially acceptable time to leave has come, nothing can hold you back." },
+  { id: "fabio-05", p: "fabio", c: "friends", it: "Ricorda, ci sarà sempre un nuovo giorno per scroccarti un altro passaggio.", en: "Remember, there will always be a new day to bum another ride off you." },
+  { id: "fabio-06", p: "fabio", c: "friends", it: "Grazie per essere sempre il nostro salvatore quando c'è da organizzare.", en: "Thanks for always being our saviour when there's something to organise." },
+  { id: "fabio-07", p: "fabio", c: "love", it: "03/09/2022", en: "03/09/2022" },
+
+  // Anna
+  { id: "anna-01", p: "anna", c: "work", it: "Sarai sicuramente una maestra bravissima.", en: "You'll definitely be a wonderful teacher." },
+  { id: "anna-02", p: "anna", c: "love", it: "Ancora ci chiediamo tutti quale voto a quale santo hai fatto per scegliere Fabio.", en: "We're all still wondering which vow to which saint you made to pick Fabio." },
+  { id: "anna-03", p: "anna", c: "friends", it: "Dovresti vedere come ci brillano gli occhi quando arriva il messaggio con cui ci inviti a Santa Maria (ringrazia anche quegli amori dei tuoi genitori).", en: "You should see how our eyes light up when your message inviting us to Santa Maria arrives (thank those sweethearts, your parents, too)." },
+  { id: "anna-04", p: "anna", c: "love", it: "03/09/2022", en: "03/09/2022" },
+  { id: "anna-05", p: "anna", c: "friends", it: "Ricorda che i cookies li puoi sempre rifare quando vuoi, li accettiamo volentieri.", en: "Remember you can always bake the cookies again whenever you like, we'll gladly accept them." },
+
   // Martina and Salvatore share the same phrases, entangled: see ENTANGLED in app.js.
   // Keep both lists identical and in the same order.
   // Martina
