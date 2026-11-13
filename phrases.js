@@ -214,13 +214,13 @@ window.PHRASES = [
   { id: "fabio-04", p: "fabio", c: "friends", it: "Sì, ma se l'orario socialmente accettabile per andare via è arrivato, non c'è nulla che ti trattiene.", en: "Sure, but once the socially acceptable time to leave has come, nothing can hold you back." },
   { id: "fabio-05", p: "fabio", c: "friends", it: "Ricorda, ci sarà sempre un nuovo giorno per scroccarti un altro passaggio.", en: "Remember, there will always be a new day to bum another ride off you." },
   { id: "fabio-06", p: "fabio", c: "friends", it: "Grazie per essere sempre il nostro salvatore quando c'è da organizzare.", en: "Thanks for always being our saviour when there's something to organise." },
-  { id: "fabio-07", p: "fabio", c: "love", it: "02/09/2022", en: "02/09/2022" },
+  { id: "fabio-07", p: "fabio", c: "love", it: "02/09/2022 ❤️", en: "02/09/2022 ❤️" },
 
   // Anna
   { id: "anna-01", p: "anna", c: "work", it: "Sarai sicuramente una maestra bravissima.", en: "You'll definitely be a wonderful teacher." },
   { id: "anna-02", p: "anna", c: "love", it: "Ancora ci chiediamo tutti quale voto a quale santo hai fatto per scegliere Fabio.", en: "We're all still wondering which vow to which saint you made to pick Fabio." },
   { id: "anna-03", p: "anna", c: "friends", it: "Dovresti vedere come ci brillano gli occhi quando arriva il messaggio con cui ci inviti a Santa Maria (ringrazia anche quegli amori dei tuoi genitori).", en: "You should see how our eyes light up when your message inviting us to Santa Maria arrives (thank those sweethearts, your parents, too)." },
-  { id: "anna-04", p: "anna", c: "love", it: "02/09/2022", en: "02/09/2022" },
+  { id: "anna-04", p: "anna", c: "love", it: "02/09/2022 ❤️", en: "02/09/2022 ❤️" },
   { id: "anna-05", p: "anna", c: "friends", it: "Ricorda che i cookies li puoi sempre rifare quando vuoi, li accettiamo volentieri.", en: "Remember you can always bake the cookies again whenever you like, we'll gladly accept them." },
 
   // Martina and Salvatore share the same phrases, entangled: see ENTANGLED in app.js.
